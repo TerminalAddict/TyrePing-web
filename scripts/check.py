@@ -49,6 +49,8 @@ class Page(HTMLParser):
             self.json_text = ''
         if tag == 'img' and not all(key in attrs for key in ('alt', 'width', 'height')):
             errors.append(f'{self.path.name}: image missing alt/dimensions')
+        if tag == 'img' and not (attrs.get('src') or attrs.get('srcset')):
+            errors.append(f'{self.path.name}: image missing src/srcset')
         if 'style' in attrs or any(key.startswith('on') for key in attrs):
             errors.append(f'{self.path.name}: inline code conflicts with CSP')
 
