@@ -1,0 +1,38 @@
+TyrePing — Open-source acknowledgements
+
+TyrePing's Android application code is based on TPMS Advanced and includes
+additional code contributions and adaptations from Persistent TPMS.
+
+TPMS Advanced
+Developed by Vincent Masselis and contributors.
+Project: https://github.com/VincentMasselis/TPMS-advanced
+TyrePing is an independent fork of this project. Its Android application
+foundation, BLE TPMS sensor support, vehicle layouts and core monitoring
+interface derive from TPMS Advanced.
+Licence: Apache License, Version 2.0.
+Reviewed source: develop at 5497dd70f3de058e0dbf9c7153d0785432a1317c
+
+Persistent TPMS
+Developed by aveshev and contributors; itself a fork of TPMS Advanced.
+Project: https://github.com/aveshev/persistent-tpms
+TyrePing incorporates additional code contributions and adaptations from
+this project.
+Licence: Apache License, Version 2.0.
+Reviewed source: develop at 93353ce8329d78009173b575f2f0202461fc5516
+
+This product includes software developed by Vincent Masselis and the
+TPMS Advanced contributors, and by aveshev and the Persistent TPMS
+contributors, licensed under the Apache License, Version 2.0.
+Copyright in contributed code remains with its respective copyright owners.
+
+Upstream NOTICE files
+No NOTICE or NOTICE.* file was found in either reviewed source snapshot
+on 15 October 2026. This attribution summary was prepared for TyrePing;
+it is not an upstream NOTICE file.
+
+The complete Apache 2.0 licence is available alongside this file as
+Apache-2.0.txt and at https://www.apache.org/licenses/LICENSE-2.0
+
+TyrePing is independently maintained by TerminalAddict. Project names are
+used for attribution and do not imply upstream endorsement.
+TyrePing source: https://github.com/TerminalAddict/TyrePing
