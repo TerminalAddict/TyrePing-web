@@ -5,7 +5,7 @@ additional code contributions and adaptations from Persistent TPMS.
 
 TPMS Advanced
 Developed by Vincent Masselis and contributors.
-Project: https://github.com/VincentMasselis/TPMS-advanced
+Project: VincentMasselis/TPMS-advanced
 TyrePing is an independent fork of this project. Its Android application
 foundation, BLE TPMS sensor support, vehicle layouts and core monitoring
 interface derive from TPMS Advanced.
@@ -14,13 +14,13 @@ Reviewed source: develop at 5497dd70f3de058e0dbf9c7153d0785432a1317c
 
 Persistent TPMS
 Developed by aveshev and contributors; itself a fork of TPMS Advanced.
-Project: https://github.com/aveshev/persistent-tpms
+Project: aveshev/persistent-tpms
 TyrePing incorporates additional code contributions and adaptations from
 this project.
 Ride-tool design references credited in the TyrePing README include:
-https://github.com/aveshev/persistent-tpms/pull/82 (vehicle indicators)
-https://github.com/aveshev/persistent-tpms/pull/53 (status announcements)
-https://github.com/aveshev/persistent-tpms/pull/58 (spoken reasons)
+Persistent TPMS PR #82 (vehicle indicators)
+Persistent TPMS PR #53 (status announcements)
+Persistent TPMS PR #58 (spoken reasons)
 Licence: Apache License, Version 2.0.
 Reviewed source: develop at 93353ce8329d78009173b575f2f0202461fc5516
 
@@ -39,4 +39,4 @@ Apache-2.0.txt and at https://www.apache.org/licenses/LICENSE-2.0
 
 TyrePing is independently maintained by TerminalAddict. Project names are
 used for attribution and do not imply upstream endorsement.
-TyrePing source: https://github.com/TerminalAddict/TyrePing
+TyrePing project: TerminalAddict/TyrePing

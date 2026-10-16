@@ -41,7 +41,7 @@ The synchroniser:
 1. Uses `gh api` to enumerate published releases from `TerminalAddict/TyrePing`, handling pagination. Chooses the most recently published stable release and pre-release independently, according to GitHub's `prerelease` flag. Drafts and unpublished releases are ignored. A pre-release can be older than the stable release; both channels keep their labels and dates.
 2. Uses `gh release download` to fetch each selected release's `TyrePing-*.apk` and `SHA256SUMS.txt` into a private staging directory. Ambiguous/missing assets fail publication rather than silently selecting an older release.
 3. Verifies asset sizes, GitHub's SHA-256 digests where supplied, the APK's published SHA-256 checksum, and the presence of AndroidManifest.xml in the APK. Cached files are checked again before reuse. Original signed APK bytes are never modified.
-4. Generates `/downloads/` with the version, publication date, file size, checksum and complete release notes for each channel. Notes are escaped as text. A missing channel displays an unavailable state. Browsers download only from tyreping.com, with no GitHub API calls or GitHub APK redirects.
+4. Generates `/downloads/` with the version, publication date, file size, checksum and release notes for each channel. GitHub Markdown links become their labels and bare GitHub URLs become `[project reference]` in both the page and its public JSON; the remaining notes are escaped as text. A missing channel displays an unavailable state. Browsers download only from tyreping.com, with no GitHub API calls or GitHub APK redirects.
 5. Publishes verified assets before the HTML links; asset filenames live in unique release/hash directories to prevent channel/cache mixups. Only the generated binary directory is pruned after the new page is published. A failed fetch or verification leaves the published site unchanged. Old files may disappear after a new publication; reload Downloads to obtain the current build.
 
 For a local-only rebuild:
@@ -71,9 +71,9 @@ This stops this website distributing the mirrored APKs; it cannot withdraw files
 
 ## Content maintenance
 
-Keep product copy independent of numbered app releases. The generated downloads page owns versions and channel status. `SoftwareApplication` JSON-LD links to the local downloads page without pinning `softwareVersion`. The validator rejects hard-coded app versions and GitHub release/download links in the main marketing/install pages and verifies the locally hosted APKs against the generated manifest.
+Keep product copy independent of numbered app releases. The generated downloads page owns versions and channel status. `SoftwareApplication` JSON-LD links to the local downloads page without pinning `softwareVersion`. The validator rejects hard-coded app versions in the main marketing/install pages, GitHub URLs throughout public HTML/metadata, release JSON and our attribution summary, and verifies the locally hosted APKs against the generated manifest.
 
-Review the app README when capabilities or workflows change, keep visible FAQs and their JSON-LD answers identical, and use the downloads page for release notes. Preserve upstream acknowledgements and font licensing. App source and support links can still lead to GitHub; the installation/download path stays on tyreping.com until store mode is enabled.
+Review the app README when capabilities or workflows change, keep visible FAQs and their JSON-LD answers identical, and use the downloads page for release notes. Public navigation and help links stay on tyreping.com until store mode is enabled. Upstream names, project identifiers, contribution references and reviewed commits remain as plain text. Preserve original third-party licence notices and signed APK bytes; the font's unmodified OFL notice is offered as a download. GitHub remains a private publication source, not a public website destination.
 
 ## Screenshots
 

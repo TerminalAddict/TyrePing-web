@@ -14,6 +14,7 @@ import tempfile
 from datetime import datetime
 from urllib.parse import parse_qs, quote, urlsplit
 import zipfile
+from public_content import release_notes
 
 ROOT = Path(__file__).resolve().parents[1]
 REPOSITORY_PATTERN = r'[A-Za-z0-9_.-]+/[A-Za-z0-9_.-]+'
@@ -166,7 +167,7 @@ def build(config, output, template, cache_root):
                      'release_id': release['id'], 'size': apk['size'], 'sha256': sha,
                      'apk_url': f'/downloads/files/{folder}/{quote(apk["name"])}',
                      'checksums_url': f'/downloads/files/{folder}/SHA256SUMS.txt',
-                     'notes': release.get('body') or ''}
+                     'notes': release_notes(release.get('body') or '')}
             manifest['channels'][channel] = entry
             cached.append((cache, folder))
     content = template.read_text()

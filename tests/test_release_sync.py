@@ -8,6 +8,7 @@ import zipfile
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1] / 'scripts'))
 import sync_releases as sync
+from public_content import GITHUB_URL, release_notes
 
 
 class ReleaseSyncTests(unittest.TestCase):
@@ -119,6 +120,36 @@ class ReleaseSyncTests(unittest.TestCase):
         self.assertIn('&lt;script&gt;', content)
         self.assertNotIn('<script>', content)
         self.assertNotIn('href="https://github.com', content)
+
+    def test_public_notes_preserve_labels_without_repository_urls(self):
+        original = '''Fixed [sensor discovery](https://github.com/owner/repo/pull/42).
+Credits: [Contributor](https://GitHub.com/contributor "Profile").
+Compare: <https://github.com/owner/repo/compare/a...b>
+Assets: //raw.githubusercontent.com/owner/repo/main/image.png
+Docs: https://owner.github.io/docs/
+Store: [Google Play](https://play.google.com/store/apps/details?id=test)
+Plain credit: Vincent Masselis and aveshev.'''
+        result = release_notes(original)
+        self.assertIn('Fixed sensor discovery.', result)
+        self.assertIn('Credits: Contributor.', result)
+        self.assertIn('Plain credit: Vincent Masselis and aveshev.', result)
+        self.assertIn('https://play.google.com/store/apps/details?id=test', result)
+        self.assertNotRegex(result, GITHUB_URL)
+        self.assertEqual(release_notes(result), result)
+
+    def test_build_sanitises_notes_in_both_html_and_public_manifest(self):
+        directory, assets, sha = self.assets()
+        release = {'id': 42, 'tag_name': 'test', 'published_at': '2026-01-01T00:00:00Z',
+                   'prerelease': False, 'body': 'Thanks [aveshev](https://github.com/aveshev).'}
+        output = self.root / 'downloads'
+        with patch.object(sync, 'list_releases', return_value=[release]), patch.object(
+                sync, 'fetch_release', return_value=(directory, *assets, sha)):
+            manifest = sync.build({'mode': 'apk', 'github_repository': 'owner/repo'},
+                                  output, sync.ROOT/'templates/downloads.html', self.root/'cache')
+        self.assertEqual(manifest['channels']['stable']['notes'], 'Thanks aveshev.')
+        for name in ('index.html', 'releases.json'):
+            self.assertNotRegex((output/name).read_text(), GITHUB_URL)
+        self.assertEqual(sync.digest(next((output/'files').rglob('*.apk'))), sha)
 
 
 if __name__ == '__main__':

@@ -9,6 +9,7 @@ from html.parser import HTMLParser
 from pathlib import Path
 from urllib.parse import unquote, urlsplit
 import xml.etree.ElementTree as ET
+from public_content import GITHUB_URL
 
 ROOT = Path(__file__).resolve().parents[1] / 'public'
 ORIGIN = 'https://www.tyreping.com'
@@ -80,6 +81,8 @@ def route(path):
 pages = {path: Page(path) for path in ROOT.rglob('*.html')}
 for path, page in pages.items():
     relative = path.relative_to(ROOT).as_posix()
+    if GITHUB_URL.search(path.read_text()):
+        errors.append(f'{relative}: public pages and metadata must not contain GitHub URLs')
     urlpath = '/' + relative.removesuffix('index.html')
     expected = ORIGIN + urlpath
     if page.canonical != [expected]:
@@ -148,9 +151,12 @@ for relative in ('index.html', 'install/index.html'):
         errors.append(f'{relative}: missing local downloads link')
     if re.search(r'(?<![\w.])v?\d+\.\d+\.\d+(?![\w.])', page.path.read_text()):
         errors.append(f'{relative}: hard-coded app version; keep product copy version-independent')
-    for ref in page.refs:
-        if ref.startswith('https://github.com/TerminalAddict/TyrePing/releases'):
-            errors.append(f'{relative}: release/download link must stay on tyreping.com: {ref}')
+
+# Original third-party licence files and signed APKs remain intact. Our own
+# downloadable acknowledgements and release JSON follow the same rule as HTML.
+for public_copy in (ROOT/'licenses/ATTRIBUTIONS.txt', ROOT/'downloads/releases.json'):
+    if public_copy.is_file() and GITHUB_URL.search(public_copy.read_text()):
+        errors.append(f'{public_copy.relative_to(ROOT)}: public copy contains a GitHub URL')
 
 distribution = json.loads((ROOT.parent/'config/distribution.json').read_text())
 release_manifest = ROOT/'downloads/releases.json'
