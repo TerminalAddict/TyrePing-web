@@ -136,8 +136,20 @@ if f'Sitemap: {ORIGIN}/sitemap.xml' not in (ROOT/'robots.txt').read_text():
 app = next(n for n in pages[ROOT/'index.html'].structured[0]['@graph'] if n['@type'] == 'SoftwareApplication')
 if app['downloadUrl'] not in pages[ROOT/'install/index.html'].refs:
     errors.append('Application JSON-LD download differs from install page')
-if app['softwareVersion'] not in app['downloadUrl']:
-    errors.append('Application JSON-LD version differs from APK')
+release_url = 'https://github.com/TerminalAddict/TyrePing/releases'
+if app.get('softwareVersion'):
+    errors.append('Do not pin softwareVersion in static marketing metadata; GitHub owns release information')
+if app['downloadUrl'] != release_url or app.get('releaseNotes') != release_url:
+    errors.append('Application metadata must link to the permanent GitHub releases page')
+for relative in ('index.html', 'install/index.html'):
+    page = pages[ROOT/relative]
+    if release_url not in page.refs or release_url + '/latest' not in page.refs:
+        errors.append(f'{relative}: missing permanent GitHub release links')
+    if re.search(r'(?<![\w.])v?\d+\.\d+\.\d+(?![\w.])', page.path.read_text()):
+        errors.append(f'{relative}: hard-coded app version; keep product copy version-independent')
+    for ref in page.refs:
+        if ref.startswith(release_url + '/tag/') or ref.startswith(release_url + '/download/'):
+            errors.append(f'{relative}: pinned release link {ref}; use the permanent release pages')
 for screenshot in app.get('screenshot', []):
     url = urlsplit(screenshot['contentUrl'])
     if f'{url.scheme}://{url.netloc}' != ORIGIN or not route(url.path).is_file():
