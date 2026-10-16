@@ -17,6 +17,10 @@ Developed by aveshev and contributors; itself a fork of TPMS Advanced.
 Project: https://github.com/aveshev/persistent-tpms
 TyrePing incorporates additional code contributions and adaptations from
 this project.
+Ride-tool design references credited in the TyrePing README include:
+https://github.com/aveshev/persistent-tpms/pull/82 (vehicle indicators)
+https://github.com/aveshev/persistent-tpms/pull/53 (status announcements)
+https://github.com/aveshev/persistent-tpms/pull/58 (spoken reasons)
 Licence: Apache License, Version 2.0.
 Reviewed source: develop at 93353ce8329d78009173b575f2f0202461fc5516
 

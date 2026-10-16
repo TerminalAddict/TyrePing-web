@@ -15,3 +15,26 @@
 .attribution-card p:last-child{margin-bottom:0;font-size:.78rem}
 .doc-content .license-text{background:#f5f8ff;color:var(--ink);border:1px solid var(--line);font-size:.76rem;line-height:1.85;white-space:pre-wrap;overflow-wrap:anywhere;tab-size:4}
 .source-snapshots code{font-size:.72rem}
+
+.release-section{background:var(--navy);color:#fff}
+.release-section .eyebrow{color:#8cdbff}
+.release-section .section-header p{color:#c3d4f0}
+.release-intro{max-width:355px}
+.release-section a{color:#a1dcff}
+.release-section .inline-link{display:inline-block;margin-top:8px}
+.ride-tools-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:20px}
+.release-section .feature-card{background:#102f5b;border-color:#35527d}
+.release-section .feature-icon{background:#204775;color:#8cdbff;margin-bottom:24px}
+.release-section .feature-card h3{color:#fff}
+.release-section .feature-card p,.release-section .detail-item p{color:#c3d4f0}
+.preview-extras{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:30px 35px;margin-top:42px}
+.release-section .detail-item>svg{color:#8cdbff}
+.preview-status{display:flex;align-items:start;gap:20px;margin-top:40px;padding:23px 25px;border:1px solid #426089;border-radius:13px;background:#ffffff08}
+.preview-tag{flex-shrink:0;border:1px solid #7199c7;border-radius:20px;padding:4px 10px;color:#c9e9ff;font-size:.65rem;font-weight:800;letter-spacing:.03em}
+.preview-status p{font-size:.76rem;line-height:1.9;color:#c3d4f0;margin:0}
+.download-divider{border:0;border-top:1px solid var(--line);margin:23px 0}
+.download-card h3{font-size:1rem;margin-bottom:12px}
+.download-card .button{white-space:normal;line-height:1.6}
+@media(max-width:1050px){.ride-tools-grid{gap:14px}.preview-extras{gap:27px}}
+@media(max-width:900px){.ride-tools-grid{grid-template-columns:1fr 1fr}.preview-extras{grid-template-columns:1fr 1fr}.release-intro{max-width:500px}.preview-status{display:block}.preview-tag{display:inline-block;margin-bottom:12px}}
+@media(max-width:600px){.ride-tools-grid,.preview-extras{grid-template-columns:1fr}.preview-status{padding:20px}.release-section .feature-card p{max-width:none}}
