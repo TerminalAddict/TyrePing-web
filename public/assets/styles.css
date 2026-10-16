@@ -38,3 +38,24 @@
 @media(max-width:1050px){.ride-tools-grid{gap:14px}.feature-extras{gap:27px}}
 @media(max-width:900px){.ride-tools-grid{grid-template-columns:1fr 1fr}.feature-extras{grid-template-columns:1fr 1fr}.release-intro{max-width:500px}.build-status{display:block}.build-tag{display:inline-block;margin-bottom:12px}}
 @media(max-width:600px){.ride-tools-grid,.feature-extras{grid-template-columns:1fr}.build-status{padding:20px}.release-section .feature-card p{max-width:none}}
+
+.release-downloads{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:24px;max-width:1000px}
+.release-download{background:#fff;border:1px solid var(--line);border-radius:20px;padding:32px;min-width:0;scroll-margin-top:110px}
+.release-download .eyebrow{margin-bottom:18px}
+.release-download h2{font-size:2.1rem;margin-bottom:12px;overflow-wrap:anywhere}
+.release-download>p{font-size:.87rem;line-height:1.85;color:var(--muted)}
+.release-download .release-published{font-size:.75rem;margin-bottom:22px}
+.release-download .button{margin-top:7px}
+.release-download-links{display:flex;gap:19px;flex-wrap:wrap;font-size:.75rem;margin-top:19px}
+.release-download .release-hash{margin:24px 0 0;border-top:1px solid var(--line);padding-top:16px;font-size:.67rem;line-height:1.9}
+.release-hash span{display:block;font-weight:800;color:var(--ink)}
+.release-hash code{display:block;overflow-wrap:anywhere;font-size:.7rem}
+.downloads-help{max-width:920px;margin:24px 0 0;color:var(--muted);font-size:.8rem;line-height:1.85}
+.release-notes-section{max-width:1000px;margin-top:65px;scroll-margin-top:110px}
+.release-notes-section>h2{font-size:2.1rem;margin-bottom:28px}
+.local-release-notes{margin-top:32px;scroll-margin-top:110px}
+.local-release-notes h3{font-size:1.3rem;margin-bottom:15px}
+.local-release-notes pre{margin:0;border:1px solid var(--line);border-radius:15px;padding:25px;background:#f5f8ff;color:#364a68;white-space:pre-wrap;overflow-wrap:anywhere;font:400 .81rem/1.85 Manrope,system-ui,sans-serif}
+.store-download{padding:28px;border:1px solid var(--line);border-radius:18px;max-width:700px;background:#fff}
+.store-download p{font-size:.85rem;color:var(--muted);margin-top:20px;margin-bottom:0}
+@media(max-width:760px){.release-downloads{grid-template-columns:1fr}.release-download{padding:25px}.release-download h2{font-size:1.9rem}.local-release-notes pre{padding:20px}.release-notes-section>h2{font-size:1.85rem}}

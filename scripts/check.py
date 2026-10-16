@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 """Check static routes, anchors, assets, JSON-LD and search metadata before upload."""
+import hashlib
 import json
 import re
 import struct
@@ -134,22 +135,47 @@ if sitemap != expected:
 if f'Sitemap: {ORIGIN}/sitemap.xml' not in (ROOT/'robots.txt').read_text():
     errors.append('robots.txt missing sitemap')
 app = next(n for n in pages[ROOT/'index.html'].structured[0]['@graph'] if n['@type'] == 'SoftwareApplication')
-if app['downloadUrl'] not in pages[ROOT/'install/index.html'].refs:
+if app['downloadUrl'].replace(ORIGIN, '') not in pages[ROOT/'install/index.html'].refs:
     errors.append('Application JSON-LD download differs from install page')
-release_url = 'https://github.com/TerminalAddict/TyrePing/releases'
+release_url = ORIGIN + '/downloads/'
 if app.get('softwareVersion'):
-    errors.append('Do not pin softwareVersion in static marketing metadata; GitHub owns release information')
+    errors.append('Do not pin softwareVersion in static marketing metadata; generated downloads own version information')
 if app['downloadUrl'] != release_url or app.get('releaseNotes') != release_url:
-    errors.append('Application metadata must link to the permanent GitHub releases page')
+    errors.append('Application metadata must link to the local downloads page')
 for relative in ('index.html', 'install/index.html'):
     page = pages[ROOT/relative]
-    if release_url not in page.refs or release_url + '/latest' not in page.refs:
-        errors.append(f'{relative}: missing permanent GitHub release links')
+    if '/downloads/' not in page.refs:
+        errors.append(f'{relative}: missing local downloads link')
     if re.search(r'(?<![\w.])v?\d+\.\d+\.\d+(?![\w.])', page.path.read_text()):
         errors.append(f'{relative}: hard-coded app version; keep product copy version-independent')
     for ref in page.refs:
-        if ref.startswith(release_url + '/tag/') or ref.startswith(release_url + '/download/'):
-            errors.append(f'{relative}: pinned release link {ref}; use the permanent release pages')
+        if ref.startswith('https://github.com/TerminalAddict/TyrePing/releases'):
+            errors.append(f'{relative}: release/download link must stay on tyreping.com: {ref}')
+
+distribution = json.loads((ROOT.parent/'config/distribution.json').read_text())
+release_manifest = ROOT/'downloads/releases.json'
+if not release_manifest.is_file():
+    errors.append('Build downloads first: python3 scripts/sync_releases.py')
+else:
+    downloads = json.loads(release_manifest.read_text())
+    if downloads['mode'] != distribution['mode']:
+        errors.append('Downloads mode differs from distribution.json; rebuild downloads')
+    if downloads['mode'] == 'play-store':
+        if list((ROOT/'downloads/files').rglob('*.apk')):
+            errors.append('Google Play mode must not publish APK files')
+        if downloads.get('play_store_url') != distribution.get('play_store_url'):
+            errors.append('Google Play URL differs from distribution.json')
+    else:
+        for channel, release in downloads['channels'].items():
+            apk = route(release['apk_url'])
+            if not apk.is_file() or apk.stat().st_size != release['size']:
+                errors.append(f'{channel}: downloaded APK missing or wrong size')
+            else:
+                with apk.open('rb') as stream:
+                    if hashlib.file_digest(stream, 'sha256').hexdigest() != release['sha256']:
+                        errors.append(f'{channel}: downloaded APK checksum mismatch')
+            if not route(release['checksums_url']).is_file():
+                errors.append(f'{channel}: matching checksums missing')
 for screenshot in app.get('screenshot', []):
     url = urlsplit(screenshot['contentUrl'])
     if f'{url.scheme}://{url.netloc}' != ORIGIN or not route(url.path).is_file():

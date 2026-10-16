@@ -2,3 +2,6 @@
 __pycache__/
 node_modules/
 .qa/
+.cache/
+public/downloads/
+.publish-downloads.lock
