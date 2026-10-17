@@ -73,6 +73,8 @@ This stops this website distributing the mirrored APKs; it cannot withdraw files
 
 Keep product copy independent of numbered app releases. The generated downloads page owns versions and channel status. `SoftwareApplication` JSON-LD links to the local downloads page without pinning `softwareVersion`. The validator rejects hard-coded app versions in the main marketing/install pages, GitHub URLs throughout public HTML/metadata, release JSON and our attribution summary, and verifies the locally hosted APKs against the generated manifest.
 
+The homepage separates core ride tools from the inventory, sensor-health, fleet and monitoring additions available for pre-release testing. The install guide covers those workflows, towing/insights, reporting, retention and manual update checks. Keep build-availability wording, FAQ answers and structured feature lists aligned when promoting features to stable. Website downloads remain local; the app’s separate, manually triggered external update checker is explained in the install and privacy pages.
+
 Review the app README when capabilities or workflows change, keep visible FAQs and their JSON-LD answers identical, and use the downloads page for release notes. Public navigation and help links stay on tyreping.com until store mode is enabled. Upstream names, project identifiers, contribution references and reviewed commits remain as plain text. Preserve original third-party licence notices and signed APK bytes; the font's unmodified OFL notice is offered as a download. GitHub remains a private publication source, not a public website destination.
 
 ## Screenshots
