@@ -73,9 +73,25 @@ This stops this website distributing the mirrored APKs; it cannot withdraw files
 
 Keep product copy independent of numbered app releases. The generated downloads page owns versions and channel status. `SoftwareApplication` JSON-LD links to the local downloads page without pinning `softwareVersion`. The validator rejects hard-coded app versions in the main marketing/install pages, GitHub URLs throughout public HTML/metadata, release JSON and our attribution summary, and verifies the locally hosted APKs against the generated manifest.
 
-The homepage separates core ride tools from the inventory, sensor-health, fleet and monitoring additions available for pre-release testing. The install guide covers those workflows, towing/insights, reporting, retention and manual update checks. Keep build-availability wording, FAQ answers and structured feature lists aligned when promoting features to stable. Website downloads remain local; the app’s separate, manually triggered external update checker is explained in the install and privacy pages.
+The homepage separates core ride tools from the inventory, sensor-health, fleet and monitoring additions available for pre-release testing. The install guide covers those workflows, towing/insights, reporting, retention and manual update checks. Keep build-availability wording, FAQ answers and structured feature lists aligned when promoting features to stable. Website downloads remain local; the app’s separate Debug-only, manually triggered external update checker is explained in the install and privacy pages.
 
 Review the app README when capabilities or workflows change, keep visible FAQs and their JSON-LD answers identical, and use the downloads page for release notes. Public navigation and help links stay on tyreping.com until store mode is enabled. Upstream names, project identifiers, contribution references and reviewed commits remain as plain text. Preserve original third-party licence notices and signed APK bytes; the font's unmodified OFL notice is offered as a download. GitHub remains a private publication source, not a public website destination.
+
+## App and website privacy
+
+`/app-privacy/` is the Android app privacy policy and the URL intended for the app/store privacy-policy link. `/privacy/` remains specific to website visits and hosted APK requests. Both are linked separately in every footer and the downloads template; the install guide and homepage application metadata point to the app policy. Privacy contact: `paul@paulwillard.nz`.
+
+Reviewed 19 October 2026 against app source commit `14257a6d0d5e8fd178711c4cd663c592b6678f31` and `app/phone/src/main/play/PRIVACY.md`. The review also includes the `v0.12.2` changes at `43c1738f730782aac4a57a25f5e5c574f4058c94` that exclude the updater from Release source sets and keep it in Debug; older Release builds can still contain it. The review checked:
+
+- App, BLE/background and QR manifests for permissions; the phone manifest and backup/data-extraction XML for enabled system backups.
+- `CoreCommonInitializer.kt`, core bindings and phone Gradle configuration for automatic Crashlytics collection in Firebase-configured releases, disabled Firebase collection in Debug, and diagnostic logging. Do not describe the app as universally offline or free of telemetry, or confuse the BLE capture switch with crash-reporting consent.
+- The Debug-only `GitHubUpdates.kt` for user-triggered public HTTPS release requests without account tokens or sensor data. Keep provider names as plain text to preserve the public no-GitHub-links rule.
+- QR camera analysis and the Play-services ML Kit dependency, including Google's documented component downloads and diagnostic/usage metrics; Android text-to-speech, document-provider exports, NFC identifiers and visible widget/notification/Auto surfaces.
+- Local diagnostic capture, backup/restore, inventory/history and retention flows for identifiers, raw packet evidence, plain-text exports, safety copies and deletion limits.
+
+Provider references: [Firebase privacy](https://firebase.google.com/support/privacy), [ML Kit privacy](https://developers.google.com/ml-kit/terms), [ML Kit data disclosures](https://developers.google.com/ml-kit/android-data-disclosure), [Android backup](https://developer.android.com/identity/data/autobackup) and [Google Play user-data policy](https://support.google.com/googleplay/android-developer/answer/10144311). Recheck them when SDKs or the release configuration change.
+
+Website publication does not add a privacy link inside the Android APK or complete a Play Console Data safety declaration. The app's About/settings and store listing need the app-policy URL; disclosures and choices must match the actual distributed build. This policy records current behaviour, including the absence of a crash-reporting preference; changing that behaviour is a separate app change.
 
 ## Screenshots
 
@@ -92,6 +108,6 @@ The dedicated `/licenses/` page credits TPMS Advanced (Vincent Masselis and cont
 - Interface icons and vehicle illustrations are native SVG.
 - Pages include canonical metadata, Open Graph and Twitter cards, and JSON-LD. There are no invented reviews, ratings, prices or store listings.
 - `robots.txt`, `sitemap.xml`, `site.webmanifest`, Apple/Android icons, a maskable icon, PNG favicons and multi-resolution ICO are included.
-- No analytics, ads, forms, external embeds, cookies, browser storage or service worker. The privacy page describes hosting access logs, APK downloads and external links.
+- No analytics, ads, forms, external embeds, cookies, browser storage or service worker. The website privacy page describes hosting access logs, APK downloads and external links; the separate app policy describes Android data handling and external services.
 
 Change sitemap `lastmod` only for pages whose content changed. Run checks and test mobile navigation, FAQ disclosure, the screenshot selector and download links before deploying. `scripts/check.py` uses only Python's standard library.

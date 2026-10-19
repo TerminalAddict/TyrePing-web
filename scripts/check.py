@@ -89,6 +89,9 @@ for path, page in pages.items():
         errors.append(f'{relative}: canonical should be {expected}')
     if not page.title or page.h1 != 1 or not page.structured:
         errors.append(f'{relative}: missing title/JSON-LD or not exactly one h1')
+    for policy in ('/app-privacy/', '/privacy/'):
+        if policy not in page.refs:
+            errors.append(f'{relative}: missing separate app/website privacy link: {policy}')
     for key in ('description', 'robots', 'og:title', 'og:description', 'og:image', 'og:url', 'twitter:card', 'twitter:image'):
         if not page.meta.get(key):
             errors.append(f'{relative}: missing {key}')

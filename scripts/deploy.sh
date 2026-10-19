@@ -23,7 +23,7 @@ rsync -rz --checksum --perms --chmod=D755,F644 --omit-dir-times --itemize-change
   -e 'ssh -o BatchMode=yes -o ConnectTimeout=10' \
   "$repo_root/public/" paul@webhost2:/var/www/html/tyreping.com/
 
-for route in / /downloads/ /install/ /privacy/ /licenses/ /licenses/Apache-2.0.txt /licenses/ATTRIBUTIONS.txt /robots.txt /sitemap.xml /site.webmanifest /favicon.ico; do
+for route in / /downloads/ /install/ /privacy/ /app-privacy/ /licenses/ /licenses/Apache-2.0.txt /licenses/ATTRIBUTIONS.txt /robots.txt /sitemap.xml /site.webmanifest /favicon.ico; do
   curl --fail --silent --show-error --max-time 20 --output /dev/null "https://www.tyreping.com$route"
 done
 printf 'Deployed and reachable: https://www.tyreping.com\n'
